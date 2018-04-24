@@ -13,8 +13,6 @@ import IconClose from './imgs/icon-close.svg'
 
 const decorate = jss({
   root: {
-    // background: theme.dark3,
-    // borderRadius: theme.borderRadius,
     background: 'lightgrey',
     position: 'fixed',
     width: 400,
@@ -28,12 +26,9 @@ const decorate = jss({
     height: 10,
     position: 'absolute',
     bottom: -4,
-    right: 'calc(50% - 5px)',
-    // background: theme.dark3,
-    // borderRadius: theme.borderRadius
+    right: 'calc(50% - 5px)'
   },
   content: {
-    // color: 'white',
     color: 'black',
     fontSize: 12,
     padding: [[15, 30, 15, 30]],
@@ -86,7 +81,6 @@ const decorate = jss({
     cursor: 'pointer'
   },
   stepsInfo: {
-    // color: theme.light5,
     fontSize: 14,
     marginTop: 20,
     marginLeft: 30
