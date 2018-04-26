@@ -26,7 +26,8 @@ const decorate = jss({
     height: 10,
     position: 'absolute',
     bottom: -4,
-    right: 'calc(50% - 5px)'
+    right: 'calc(50% - 5px)',
+    background: 'lightgrey'
   },
   content: {
     color: 'black',
@@ -48,7 +49,8 @@ const decorate = jss({
   },
   paginationItem: {
     padding: [[0, 2]],
-    cursor: 'pointer'
+    cursor: 'pointer',
+    boxSizing: 'content-box'
   },
   paginationItemActive: {
     cursor: 'default'
@@ -57,13 +59,15 @@ const decorate = jss({
     cursor: 'pointer',
     padding: 5,
     height: 10,
-    marginTop: -5
+    marginTop: -5,
+    boxSizing: 'content-box'
   },
   next: {
     cursor: 'pointer',
     padding: 5,
     height: 10,
-    marginTop: -5
+    marginTop: -5,
+    boxSizing: 'content-box'
   },
   finish: {
     color: 'rgba(255, 255, 255, 0.3)',
