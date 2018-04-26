@@ -195,14 +195,13 @@ class Movie extends React.Component {
     const options = {...defaultOptions, ...this.props.options}
 
     return (
-      <div>
+      <div className={className}>
         {this.state.status !== STATUS_IDLE &&
           this.renderAction()
         }
 
         <ReactCodeMirror
           editorDidMount={editor => {this.editor = editor}}
-          className={className}
           value={value}
           options={options}
         />
