@@ -184,8 +184,17 @@ class Movie extends React.Component {
 	}
 
   render() {
-    const {className, value} = this.props
+    const {className, code, commands} = this.props
 
+    let script = code
+    if (commands && commands.length) {
+
+      const cmdsString = commands.map(one =>
+        `${one.type}: ${JSON.stringify(one.options)}`
+      ).join('\n')
+
+      script += `\n@@@\n${cmdsString}\n`
+    }
 
     const defaultOptions = {
       mode: 'text/x-java',
@@ -207,7 +216,7 @@ class Movie extends React.Component {
 
         <ReactCodeMirror
           editorDidMount={editor => {this.editor = editor}}
-          value={value}
+          value={script}
           options={options}
         />
       </div>

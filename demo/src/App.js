@@ -22,7 +22,7 @@ class App extends React.Component {
 
   state = {
     playing: false,
-    content: `
+    code: `
       String email = request.getParameter('email');
       String password = request.getParameter('password');
       
@@ -38,12 +38,37 @@ class App extends React.Component {
       } else {
         // Auth failure - Redirect to Login Page
       }
-      @@@
-      tooltip: {"text": "To validate user credentials, the request.getParameter() method is first called to extract Alice's email (from the HTTP request parameter) which is assigned to the email variable.","pos":"0:8"}
-      tooltip: {"text": "Similarly, the request.getParameter() method is called to extract Alice's password value and assigned to the password variable", "pos": "1:8"}
-      tooltip: {"text": "The string variable sql is then declared, which represents the SQL query used to authenticate Alice's credentials\\n\\nNote that Alice's email and password values are concatenated to build the final query.", "pos": "3:9"}
-      tooltip: {"text": "The SQL query defined in sql string variable is then executed by invoking the executeQuery method. This method executes our query against the backend SQL server and returns a ResultSet object which is checked on line 10 through the if/else block.\\n\\nFinally, should Alice's credentials match, the loggedIn variable is set to true and she is redirected to her profile page.", "pos": "7:30"}
-    `
+    `,
+    commands: [
+      {
+        type: 'tooltip',
+        options: {
+          text: 'To validate user credentials, the request.getParameter() method is first called to extract Alice\'s email (from the HTTP request parameter) which is assigned to the email variable.',
+          pos: '0:8'
+        }
+      },
+      {
+        type: 'tooltip',
+        options: {
+          text: 'Similarly, the request.getParameter() method is called to extract Alice\'s password value and assigned to the password variable',
+          pos: '1:8'
+        }
+      },
+      {
+        type: 'tooltip',
+        options: {
+          text: 'The string variable sql is then declared, which represents the SQL query used to authenticate Alice\'s credentials\\n\\nNote that Alice\'s email and password values are concatenated to build the final query.',
+          pos: '3:9'
+        }
+      },
+      {
+        type: 'tooltip',
+        options: {
+          text: 'The SQL query defined in sql string variable is then executed by invoking the executeQuery method. This method executes our query against the backend SQL server and returns a ResultSet object which is checked on line 10 through the if/else block.\\n\\nFinally, should Alice\'s credentials match, the loggedIn variable is set to true and she is redirected to her profile page.',
+          pos: '7:30'
+        }
+      }
+    ]
   }
 
   handleStart = () => {
@@ -73,7 +98,8 @@ class App extends React.Component {
           }
         </div>
         <Movie
-          value={this.state.content}
+          code={this.state.code}
+          commands={this.state.commands}
           onStop={this.handleStop}
           onFinish={this.handleFinish}
           playing={this.state.playing}
