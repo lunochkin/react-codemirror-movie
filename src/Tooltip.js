@@ -39,7 +39,8 @@ const decorate = jss({
   controls: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: [[10, 20, 10, 20]]
+    padding: [[10, 20, 10, 20]],
+    alignItems: 'center'
   },
   pagination: {
     minHeight: 1,
@@ -70,7 +71,7 @@ const decorate = jss({
     boxSizing: 'content-box'
   },
   finish: {
-    color: 'rgba(255, 255, 255, 0.3)',
+    color: 'black',
     cursor: 'pointer',
     fontSize: 14,
     '&:hover': {
@@ -82,7 +83,8 @@ const decorate = jss({
     padding: 5,
     top: 10,
     right: 10,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    boxSizing: 'content-box'
   },
   stepsInfo: {
     fontSize: 14,
