@@ -6,7 +6,8 @@ import jss from 'react-jss'
 
 const decorate = jss({
   controls: {
-    margin: [[20, 0]]
+    margin: [[20, 0]],
+    height: 30
   },
   button: {
     fontSize: 13
@@ -67,7 +68,9 @@ class App extends React.Component {
     return (
       <div>
         <div className={classes.controls}>
-          <button className={classes.button} onClick={this.handleStart}>Play</button>
+          {!this.state.playing &&
+            <button className={classes.button} onClick={this.handleStart}>Play</button>
+          }
         </div>
         <Movie
           value={this.state.content}

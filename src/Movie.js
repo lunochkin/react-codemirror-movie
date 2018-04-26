@@ -126,7 +126,12 @@ class Movie extends React.Component {
 
       await this.runQueue()
 			return
-		}
+    }
+    
+    if (!this.state.actions.length) {
+      this.finish()
+      return
+    }
 		
 		this.editor.execCommand('revert')
 		this.editor.setOption('readOnly', true)
@@ -217,7 +222,6 @@ class Movie extends React.Component {
 
 	renderAction = () => {
     const {actions, index} = this.state
-    console.log('renderActions: ', actions)
     if (actions.length === 0) {
       return null
     }
