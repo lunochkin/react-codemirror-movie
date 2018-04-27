@@ -1,6 +1,6 @@
 {
   "name": "react-codemirror-movie",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "react codemirror movie",
   "main": "lib/index.js",
   "author": "@lunochkin",
