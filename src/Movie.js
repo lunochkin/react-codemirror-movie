@@ -27,37 +27,31 @@ class Movie extends React.Component {
   updateState = data => new Promise(resolve => this.setState(data, resolve))
 
   componentDidMount () {
-    this.initMovie()
+    this.preventCursorMovement()
   }
 
   componentDidUpdate (prevProps) {
+    if (this.props.playing === prevProps.playing) {
+      return
+    }
+
     if (this.props.playing) {
-      if (!prevProps.playing) {
-        this.play()
-      }
-    } else {
-      if (prevProps.playing) {
-        this.pause()
-      }
-    }
-  }
-
-  initMovie = () => {
-    if (!('preventCursorMovement' in CodeMirror.defaults)) {
-      CodeMirror.defineOption('preventCursorMovement', false, cm => {
-        var handler = (cm, event) => cm.getOption('readOnly') && event.preventDefault()
-        cm.on('keydown', handler)
-        cm.on('mousedown', handler)
-      })
-    }
-  }
-
-  toggle = () => {
-    if (this.state.status === STATUS_PLAY) {
-      this.pause()
-    } else {
       this.play()
+    } else {
+      this.pause()
     }
+  }
+
+  preventCursorMovement = () => {
+    if ('preventCursorMovement' in CodeMirror.defaults) {
+      return
+    }
+
+    CodeMirror.defineOption('preventCursorMovement', false, cm => {
+      var handler = (cm, event) => cm.getOption('readOnly') && event.preventDefault()
+      cm.on('keydown', handler)
+      cm.on('mousedown', handler)
+    })
   }
 
   runQueue = async () => {
