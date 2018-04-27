@@ -10,7 +10,14 @@
     "plugins": [
         "transform-class-properties",
         "transform-object-rest-spread",
-        "inline-react-svg"
+        "inline-react-svg",
+        [
+            "transform-runtime",
+            {
+                "polyfill": false,
+                "regenerator": true
+            }
+        ]
     ]
 }
 
