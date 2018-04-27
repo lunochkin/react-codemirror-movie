@@ -9,8 +9,6 @@ import IconActiveOval from './imgs/icon-active-oval.svg'
 import IconInactiveCircle from './imgs/icon-inactive-circle.svg'
 import IconClose from './imgs/icon-close.svg'
 
-
-
 const decorate = jss({
   root: {
     background: 'lightgrey',
@@ -46,7 +44,7 @@ const decorate = jss({
     minHeight: 1,
     flex: 1,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   paginationItem: {
     padding: [[0, 2]],
@@ -105,15 +103,13 @@ const getPos = ({editor, tooltip, options}) => {
   const viewportWidth = document.documentElement.clientWidth
 
   const width = 400
-    
+
   const left = Math.min(viewportWidth - width, Math.max(0, coords.left - viewportLeft - width / 2))
   const top = Math.max(0, coords.top - tooltip.scrollHeight)
 
   return {left, top}
 }
-
 class Tooltip extends React.Component {
-
   ref = React.createRef()
 
   state = {
@@ -127,14 +123,14 @@ class Tooltip extends React.Component {
     pos: {
       left: 0,
       top: 0
-    },
+    }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.updatePos()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.updatePos()
   }
 
@@ -196,7 +192,7 @@ class Tooltip extends React.Component {
     return result
   }
 
-  render() {
+  render () {
     if (this.state.stopping || this.state.finishing) {
       return this.renderDisapearance()
     }
@@ -208,7 +204,7 @@ class Tooltip extends React.Component {
     return this.renderTooltip(this.state.pos)
   }
 
-  renderAppearance() {
+  renderAppearance () {
     const {pos, fromPos} = this.state
 
     return (
@@ -235,7 +231,7 @@ class Tooltip extends React.Component {
     )
   }
 
-  renderDisapearance() {
+  renderDisapearance () {
     const {pos} = this.state
 
     return (
@@ -259,7 +255,7 @@ class Tooltip extends React.Component {
     this.props.onActionChange(this.props.index - 1)
   }
 
-  renderTooltip(style) {
+  renderTooltip (style) {
     const {total, index, options} = this.props
     const classes = this.getResultClasses()
 
@@ -269,7 +265,7 @@ class Tooltip extends React.Component {
         <div className={classes.content}>{options.text}</div>
 
         <IconClose className={classes.iconClose} onClick={this.handleStop} />
-  
+
         <div className={classes.controls}>
           {index > 0 &&
             <ArrowLeft className={classes.prev} onClick={this.handlePrev} />
@@ -277,10 +273,9 @@ class Tooltip extends React.Component {
 
           {this.renderPagination()}
 
-          {index < total - 1 ?
-            <ArrowRight className={classes.next} onClick={this.handleNext} />
-            :
-            <span className={classes.finish} onClick={this.handleFinish}>Finish</span>
+          {index < total - 1
+            ? <ArrowRight className={classes.next} onClick={this.handleNext} />
+            : <span className={classes.finish} onClick={this.handleFinish}>Finish</span>
           }
         </div>
 
@@ -289,7 +284,7 @@ class Tooltip extends React.Component {
     )
   }
 
-  renderPagination() {
+  renderPagination () {
     const {index, total} = this.props
     const items = Array(total).fill(0)
     const classes = this.getResultClasses()
@@ -313,6 +308,5 @@ class Tooltip extends React.Component {
     )
   }
 }
-
 
 export default decorate(Tooltip)

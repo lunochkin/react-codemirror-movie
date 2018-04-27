@@ -3,7 +3,6 @@ import Movie from '../../src/index'
 import 'codemirror/lib/codemirror.css'
 import jss from 'react-jss'
 
-
 const decorate = jss({
   controls: {
     margin: [[20, 0]],
@@ -17,9 +16,7 @@ const decorate = jss({
   }
 })
 
-
 class App extends React.Component {
-
   state = {
     playing: false,
     code: `

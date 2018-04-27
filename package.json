@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/lunochkin/react-codemirror-movie#readme",
   "scripts": {
-    "test": "standard",
+    "test": "standard --fix",
     "prepublish": "npm run lib:build",
     "build": "npm run lib:build && npm run demo:build",
     "predeploy": "npm run demo:build",

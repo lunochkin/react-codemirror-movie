@@ -1,48 +1,36 @@
 import React from 'react'
-import {UnControlled as ReactCodeMirror} from 'react-codemirror2'
+import { UnControlled as ReactCodeMirror } from 'react-codemirror2'
 import CodeMirror from 'codemirror/lib/codemirror'
-import parse from './parse'
-
 import Tooltip from './Tooltip'
 
-
-const STATUS_IDLE  = 'idle'
-const STATUS_PLAY  = 'play'
+const STATUS_IDLE = 'idle'
+const STATUS_PLAY = 'play'
 const STATUS_PAUSE = 'pause'
 
-
 const requestTimer = (fn, delay) => {
-	if (!delay) {
-		fn()
-	} else {
-		return setTimeout(fn, delay)
-	}
+  if (!delay) {
+    fn()
+  } else {
+    return setTimeout(fn, delay)
+  }
 }
 
-
 class Movie extends React.Component {
-
   editor = null
 
   state = {
     status: STATUS_IDLE,
     queue: [],
-    actions: [],
     index: 0
   }
 
   updateState = data => new Promise(resolve => this.setState(data, resolve))
 
-  componentDidMount() {
+  componentDidMount () {
     this.initMovie()
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.code !== this.props.code || prevProps.commands !== this.props.commands) {
-      this.initMovie()
-      return
-    }
-
+  componentDidUpdate (prevProps) {
     if (this.props.playing) {
       if (!prevProps.playing) {
         this.play()
@@ -62,45 +50,23 @@ class Movie extends React.Component {
         cm.on('mousedown', handler)
       })
     }
-  
-    const editor = this.editor
+  }
 
-    const initialValue = editor.getValue() || ''
-
-    let {value, actions} = parse(initialValue)
-
-    // normalize line endings
-    value = value.replace(/\r?\n/g, '\n')
-
-    const initialPos = value.indexOf('|')
-
-    value = value.replace(/\|/g, '')
-    editor.setValue(value)
-
-    if (initialPos !== -1) {
-      editor.setCursor(editor.posFromIndex(initialPos))
+  toggle = () => {
+    if (this.state.status === STATUS_PLAY) {
+      this.pause()
+    } else {
+      this.play()
     }
-
-    this.setState({
-      actions
-    })
   }
 
-	toggle = () => {
-		if (this.state.status === STATUS_PLAY) {
-			this.pause()
-		} else {
-			this.play()
-		}
-  }
-  
   runQueue = async () => {
     const timerObj = this.state.queue[0]
     if (!timerObj) {
       return
     }
 
-    const {fn, delay} = timerObj
+    const { fn, delay } = timerObj
     requestTimer(fn, delay)
 
     await this.updateState({
@@ -110,95 +76,85 @@ class Movie extends React.Component {
     await this.runQueue()
   }
 
-	play = async () => {
-		if (this.state.status === STATUS_PLAY) {
-			// already playing
-			return
-		}
-		
-		if (this.state.status === STATUS_PAUSE) {
-			// revert from paused state
-			this.editor.focus()
-      
+  play = async () => {
+    if (this.state.status === STATUS_PLAY) {
+      // already playing
+      return
+    }
+
+    if (this.state.status === STATUS_PAUSE) {
+      // revert from paused state
+      this.editor.focus()
+
       await this.updateState({
         status: STATUS_PLAY
       })
 
       await this.runQueue()
-			return
+      return
     }
-    
-    if (!this.state.actions.length) {
+
+    if (!this.props.commands.length) {
       this.finish()
       return
     }
-		
-		this.editor.execCommand('revert')
-		this.editor.setOption('readOnly', true)
-		this.editor.focus()
-		
+
+    this.editor.execCommand('revert')
+    this.editor.setOption('readOnly', true)
+    this.editor.focus()
+
     await this.updateState({
       status: STATUS_PLAY
     })
   }
-  
-	pause = () => {
+
+  pause = () => {
     if (this.state.status === STATUS_PLAY) {
       this.setState({
         status: STATUS_PAUSE
       })
     }
   }
-  
+
   finish = async () => {
     await this.resetState()
     if (this.props.onFinish) {
       await this.props.onFinish()
     }
   }
-	
-	stop = async () => {
+
+  stop = async () => {
     await this.resetState()
     if (this.props.onStop) {
       await this.props.onStop()
     }
   }
-  
+
   resetState = () => {
     this.editor.setOption('readOnly', false)
 
-    return new Promise(r => {
+    return new Promise(resolve => {
       this.setState({
         status: STATUS_IDLE,
         queue: [],
         index: 0
-      }, r)
+      }, resolve)
     })
   }
-	
-	requestTimer = (fn, delay) => {
-		if (this.state.status !== STATUS_PLAY) {
+
+  requestTimer = (fn, delay) => {
+    if (this.state.status !== STATUS_PLAY) {
       // save function call into a queue till next 'play()' call
       this.setState({
-        queue: [...this.state.queue, {fn, delay}]
+        queue: [...this.state.queue, { fn, delay }]
       })
-		} else {
-			return requestTimer(fn, delay)
-		}
-	}
-
-  render() {
-    const {className, code, commands} = this.props
-
-    let script = code
-    if (commands && commands.length) {
-
-      const cmdsString = commands.map(one =>
-        `${one.type}: ${JSON.stringify(one.options)}`
-      ).join('\n')
-
-      script += `\n@@@\n${cmdsString}\n`
+    } else {
+      return requestTimer(fn, delay)
     }
+  }
+
+  render () {
+    const { className, code } = this.props
 
     const defaultOptions = {
       mode: 'text/x-java',
@@ -210,7 +166,7 @@ class Movie extends React.Component {
       showCursorWhenSelecting: false
     }
 
-    const options = {...defaultOptions, ...this.props.options}
+    const options = { ...defaultOptions, ...this.props.options }
 
     return (
       <div className={className}>
@@ -219,8 +175,8 @@ class Movie extends React.Component {
         }
 
         <ReactCodeMirror
-          editorDidMount={editor => {this.editor = editor}}
-          value={script}
+          editorDidMount={editor => { this.editor = editor }}
+          value={code}
           options={options}
         />
       </div>
@@ -233,27 +189,28 @@ class Movie extends React.Component {
     })
   }
 
-	renderAction = () => {
-    const {actions, index} = this.state
-    if (actions.length === 0) {
+  renderAction = () => {
+    const { index } = this.state
+    const { commands } = this.props
+    if (commands.length === 0) {
       return null
     }
 
-    const action = actions[index]
-    if (!action) {
+    const command = commands[index]
+    if (!command) {
       return null
     }
 
-		if (action.name !== 'tooltip') {
+    if (command.type !== 'tooltip') {
       return null
     }
 
     return (
       <Tooltip
-        options={action.options}
+        options={command.options}
         editor={this.editor}
         index={index}
-        total={actions.length}
+        total={commands.length}
         onActionChange={this.handleActionChange}
         onStop={this.stop}
         onFinish={this.finish}
@@ -261,9 +218,7 @@ class Movie extends React.Component {
         customClasses={this.props.tooltipClasses}
       />
     )
-	}
-
+  }
 }
-
 
 export default Movie
