@@ -152,12 +152,16 @@ class Movie extends React.Component {
   
   finish = async () => {
     await this.resetState()
-    await this.props.onFinish()
+    if (this.props.onFinish) {
+      await this.props.onFinish()
+    }
   }
 	
 	stop = async () => {
     await this.resetState()
-    await this.props.onStop()
+    if (this.props.onStop) {
+      await this.props.onStop()
+    }
   }
   
   resetState = () => {
