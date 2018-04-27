@@ -38,7 +38,7 @@ class Movie extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value) {
+    if (prevProps.code !== this.props.code || prevProps.commands !== this.props.commands) {
       this.initMovie()
       return
     }
